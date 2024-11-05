@@ -1,5 +1,7 @@
 # _Rutinas relacionadas a TODO
 from utils import clear_console, display_menu
+from config import constants
+from helpers.file_helpers import write_json_file
 
 def add_todo(todos):
     clear_console()
@@ -11,6 +13,7 @@ def add_todo(todos):
         "description": description
     }
     todos.append(todo)
+    write_json_file(constants.PERSONAL_TODOS_PATH)
     print(f"TODO '{name}' added successfully.")
 
 
@@ -40,7 +43,7 @@ def update_todo(todos):
         todo["description"] = input(f"Enter new description (current: {todo['description']}): ") or todo["description"]
         done_input = input("Is it done? (y/n): ").lower()
         todo["done"] = True if done_input == "y" else False
-
+        write_json_file(constants.PERSONAL_TODOS_PATH)
         print(f"TODO '{todo['name']}' updated successfully.")
     except ValueError:
         print("Invalid input, please enter a number.")
@@ -55,6 +58,8 @@ def delete_todo(todos):
             return
 
         deleted_todo = todos.pop(index)
+        write_json_file(constants.PERSONAL_TODOS_PATH)
         print(f"TODO '{deleted_todo['name']}' deleted successfully.")
     except ValueError:
         print("Invalid input, please enter a number.")
+#
